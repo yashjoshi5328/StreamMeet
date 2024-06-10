@@ -62,7 +62,9 @@ input[type='text']{
     bottom:20%;
 }
 .meeting-generator a{
-    color:grey;
+    color:red;
     text-decoration: none;
-    font-weight: 400;
+    font-weight: 900;
+    /* background-color: red; */
+    border-radius: 5%;
 }
