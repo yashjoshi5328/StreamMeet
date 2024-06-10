@@ -34,7 +34,7 @@
             redirectBack();
         }
         console.log('meetId:', meetId);
-
+        let currentUser="";
         setTimeout(()=>{
             const userInput=prompt('Enter your userid');
             // const userid=alert('Enter your userid');
@@ -48,7 +48,7 @@
                 redirectBack();
             }
             //current user
-            const currentUser=userInput;
+            currentUser=userInput;
         },2000);
     </script>
 </head>
