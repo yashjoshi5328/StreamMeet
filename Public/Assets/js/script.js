@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         console.log('meetID:', meetID);
 
-        var meetURL = "http://127.0.0.1:3000/" + "?meetId=" + randomID;
+        var meetURL = window.location.origin + "?meetId=" + randomID;
         console.log('meetURL:', meetURL);
 
         window.location=meetURL;
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         console.log('meetID:', meetID);
 
-        var meetURL = "http://127.0.0.1:3000/" + "?meetId=" + meetID;
+        var meetURL = window.location.origin + "?meetId=" + meetID;
         console.log('meetURL:', meetURL);
 
         window.location=meetURL;
