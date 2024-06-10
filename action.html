@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamMeet</title>
+    <!--favicons-->
+    <link rel="apple-touch-icon" sizes="180x180" href="/Public/Assets/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/Public/Assets/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/Public/Assets/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/Public/Assets/favicons/site.webmanifest">
+    <link rel="mask-icon" href="/Public/Assets/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+    <link rel="stylesheet" href="Public/Assets/css/style.css">
+    <link rel="stylesheet" href="Public/Assets/css/header.css">
+    <link rel="stylesheet" href="Public/Assets/css/main.css">
+    <link rel="stylesheet" href="Public/Assets/css/crousal.css">
+   
+</head>
+<body>
+    <header class="navbar">
+
+        <div class="logo-container">
+            <span class="material-symbols-outlined large-icon">escalator_warning</span>
+            <h1 class="logo-title">StreamMeet</h1>
+        </div>
+        
+        <div class="datetime-container">
+            <span class="material-symbols-outlined large-icon">schedule</span>
+            <p class="datetime-display"></p>
+        </div>
+
+    </header>
+
+    <main>
+        <div class="meeting-container">
+            <div class="meeting-heading">
+                <div class="meeting-slogan">
+                    <p>Movie & Music Streaming for everyone</p>
+                </div>
+                <div class="meeting-about">
+                    <p>Connect, Stream and have fun from anywhere with StreamMeet</p>
+                </div>
+
+            </div>
+            <div class="meeting-generator">
+                <button id="newMeet">
+                    <span class="material-symbols-outlined">video_call</span>
+                    New Room
+                </button>
+                <div class="meetID-container">
+                    <input type="text" name="meetID" id="meetID" placeholder="Enter room code">
+                    <label for="meetID">
+                        <span class="material-symbols-outlined">keyboard</span>
+                    </label>
+                </div>
+                <a href="" id="joinMeet">JOIN</a>
+            </div>
+        </div>
+        
+        <div class="crousal-container">
+
+            <div class="crousal-display" >
+                
+                <div class="crousal-items" >
+                    <img class="crousal-items-image" src="/Public/Assets/images/feature1.png" alt="image">
+                    <p class="crousal-items-heading">Get a link that you can share</p>
+                    <p class="crousal-items-about">Click <bold>New Room</bold> to get a link that you can send to people that you want to stream with</p>
+                </div>
+                <div class="crousal-items">
+                    <img class="crousal-items-image" src="/Public/Assets/images/feature2.png" alt="image">
+                    <p class="crousal-items-heading">Your privacy is safe</p>
+                    <p class="crousal-items-about">No one can join a meeting unless invited with room code by the host</p>
+                </div>
+                <div class="crousal-items">
+                    <img class="crousal-items-image" src="/Public/Assets/images/feature3.png" alt="image">
+                    <p class="crousal-items-heading">Real Time chatting </p>
+                    <p class="crousal-items-about">You can now interact while streaming with our real time chatting system</p>
+                </div>
+
+                <span class="material-symbols-outlined left-arrow">
+                    keyboard_arrow_left
+                </span>
+                <span class="material-symbols-outlined right-arrow">
+                    keyboard_arrow_right
+                </span>
+                <div class="dots">
+                    <span class="dot">•</span>
+                    <span class="dot">•</span>
+                    <span class="dot">•</span>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+    <footer>
+
+    </footer>
+    <script src="/Public/Assets/js/script.js"></script>
+</body>
+</html>

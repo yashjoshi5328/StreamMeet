@@ -1,0 +1,68 @@
+main{
+    color: white;
+    height:99.9vh;
+}   
+.meeting-container{
+    padding-top:7%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10%;
+} 
+.meeting-container .meeting-heading{
+    font-weight: 900;
+    width:80%;
+} 
+.meeting-heading .meeting-slogan{
+    text-align: center;
+    font-weight: 400;
+    font-size:3rem;
+    letter-spacing: 2px;
+}
+.meeting-heading .meeting-about{
+    text-align: center;
+    letter-spacing:1.5px;
+}
+.meeting-container .meeting-generator{
+    width:80%;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
+.meeting-generator #newMeet{
+    display: flex;
+    align-items: center;
+    color: white;
+    margin-right: 2.5%;
+    height:48px;
+    padding:.5rem;
+    background-color: blue;
+    border-radius: 3px;
+    border-width: 0;
+    cursor:pointer;
+}
+.meetID-container{
+    position: relative;
+    margin-right: 2.5%;
+}
+.meetID-container #meetID{
+    height:48px;
+    border-radius: 3px;
+    border-width: 0;
+}
+input[type='text']{
+    padding-left:28px !important;
+}
+.meeting-generator label{
+    color: grey;
+    position:absolute;
+    left:1%;
+    bottom:20%;
+}
+.meeting-generator a{
+    color:grey;
+    text-decoration: none;
+    font-weight: 400;
+}

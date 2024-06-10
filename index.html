@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamMeet</title>
+    <!--favicons-->
+    <link rel="apple-touch-icon" sizes="180x180" href="/Public/Assets/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/Public/Assets/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/Public/Assets/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/Public/Assets/favicons/site.webmanifest">
+    <link rel="mask-icon" href="/Public/Assets/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+    <link rel="stylesheet" href="Public/Assets/css/style.css">
+    <link rel="stylesheet" href="Public/Assets/css/index.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket=io();
+
+        // Function to get query parameters
+        function getQueryParams(param){
+            let params = new URLSearchParams(window.location.search);
+            return params.get(param);
+        }
+        function redirectBack(){
+            window.location=window.location.origin+'/action.html';
+        }
+        const meetId = getQueryParams('meetId');
+        if(!meetId||meetId===""){
+            redirectBack();
+        }
+        console.log('meetId:', meetId);
+
+        setTimeout(()=>{
+            const userInput=prompt('Enter your userid');
+            // const userid=alert('Enter your userid');
+
+            // Check if user clicked "Cancel" or entered a value
+            if (userInput !== null) {
+                // Emit event to join room
+                socket.emit('join-room',{meetId:meetId,userInput:userInput});
+
+            }else{
+                redirectBack();
+            }
+            //current user
+            const currentUser=userInput;
+        },2000);
+    </script>
+</head>
+<body>
+    <div class="top">
+        <span class="material-symbols-outlined cursor-pointer  margin-left-right">
+            group
+            <span class="people-count">1</span>
+        </span>
+        <span class="material-symbols-outlined cursor-pointer" id="chat-enable">
+            chat
+        </span>
+        <div class="chat-section">
+            <div class="show-chat"></div>
+            <div class="input-chat">
+                <input type="text" name="message" id="message" placeholder="Enter text here">
+            </div>
+            <button id="send">
+                <span class="material-symbols-outlined cursor-pointer">
+                    send
+                </span>
+            </button>
+        </div>
+    </div>
+    <div class="main">
+        <video src="/uploads/demo.mp4" id="video"></video>
+    </div>
+    <div class="bottom">
+        <div class="meeting-details-opened">
+            <p id="copy-alert">copied successfully!</p>
+            <p id="meeting-id" class="meeting-id bg-color-white"></p>
+            <span id="copy-btn" class="material-symbols-outlined bg-color-white cursor-pointer">
+                content_copy
+            </span>
+        </div>
+        <div class="meeting-details">
+            <p>Rooms Details</p>
+            <span class="material-symbols-outlined cursor-pointer " id="meeting-detail-btn">
+                keyboard_arrow_down
+            </span>
+        </div>
+        <div class="meeting-controls ">
+            <div class="upload-prompt">
+                <p class="cursor-pointer">Upload Your Vedio <a href="/upload.html" style="text-decoration: none; color:blue">here<a> & generate stream id</p>
+                <label for="stream-id">Stream Id</label>
+                <input type="text" name="stream-id" id="stream-id"><br><br>
+                <div class="streaming-div"><button class="cursor-pointer" id="stream-btn">STREAM</button></div>
+            </div>
+            <button class="control-btn cursor-pointer" id="upload">
+                <span class="material-symbols-outlined">
+                    upload
+                </span>
+            </button>
+            <button class="control-btn" id="rewind">
+                <span class="material-symbols-outlined cursor-pointer ">
+                    fast_rewind
+                </span>
+            </button>
+            <button class="control-btn playPauseButton" id="play">
+                <span class="material-symbols-outlined cursor-pointer ">
+                    play_arrow
+                </span>
+            </button>
+            <button class="control-btn" id="forward">
+                <span class="material-symbols-outlined cursor-pointer ">
+                    fast_forward
+                </span>
+            </button>
+            <button class="live-btn cursor-pointer" id="live">
+                •Live
+            </button>
+        </div>
+        <div class="present-now">
+            <div class="current-time">00:00:00</div>/
+            <div class="total-time">00:00:00</div>
+        </div>
+        
+    </div> 
+    <script>
+        //when new user joined
+        socket.on("joined-chat",(message)=>{
+            const chat=document.getElementsByClassName("show-chat")[0];
+            const newMessage=document.createElement('p');
+            newMessage.innerHTML= message;
+            newMessage.setAttribute('class','chat-alert');
+            newMessage.style.textAlign='center';
+            chat.appendChild(newMessage);
+            console.log(message);
+        })
+        //recieve a message from server
+        socket.on("message",({socketId,message})=>{
+            const chat=document.getElementsByClassName("show-chat")[0];
+            const newMessage=document.createElement('p');
+            if(currentUser!=socketId){
+                console.log(socketId , currentUser);
+                newMessage.innerHTML= socketId+" : "+message;
+            }else{
+                newMessage.innerHTML= 'You'+" : "+message;
+            }
+            newMessage.setAttribute('class','chat-message');
+            chat.appendChild(newMessage);
+            console.log(socketId+" : "+message);
+        });
+        //  when client left the chatroom
+        socket.on("left-chat",(message)=>{
+            const chat=document.getElementsByClassName("show-chat")[0];
+            const newMessage=document.createElement('p');
+            newMessage.innerHTML= message;
+            newMessage.setAttribute('class','chat-alert');
+            newMessage.style.textAlign='center';
+            chat.appendChild(newMessage);
+            console.log(message);
+        });
+
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            //send a message to the server
+            socket.on("user-count",(count)=>{
+                const counter=document.getElementsByClassName("people-count")[0];
+                counter.innerHTML=count;
+            });
+
+            //setting meetid in meet details
+            const meetIdUpdate=document.getElementById('meeting-id');
+            meetIdUpdate.innerHTML=meetId;
+
+            const chat=document.getElementById('chat-enable');
+            let chatToggle=true;
+            const message=document.getElementById('message');
+            const send=document.getElementById('send');
+
+            chat.addEventListener('click',()=>{
+                chat.style.color=chatToggle?'blue':'black';
+                const chatSection=document.getElementsByClassName('chat-section')[0];
+                chatSection.style.display=chatToggle?"block":'none';
+                // chatSection.style.height=chatToggle?"87vh":'0';
+                chatToggle=!chatToggle;
+            })
+            send.addEventListener('click',()=>{
+                if(message.value.trim()){
+                    socket.emit('user-message',message.value);
+                }
+                if(message.value==='#sync'){
+                    
+                    const temp=document.getElementsByTagName('video')[0];
+                    socket.emit('live',({currentTime:temp.currentTime,meetId:meetId}));
+                    socket.emit('#play',({meetId:meetId}));
+                    temp.play(); // If video is paused, play it
+                    playPauseButton.innerHTML='<span class="material-symbols-outlined cursor-pointer ">pause</span>';
+                    playPauseButton.style.color='blue';
+                }
+                message.value='';
+            });
+
+            //meeting details opening closing
+            let meetDetailToggle=true;
+            const detailBtn=document.getElementById('meeting-detail-btn');
+            detailBtn.addEventListener('click',()=>{
+                const meetDetails=document.getElementsByClassName('meeting-details-opened')[0];
+                if(meetDetailToggle){
+                    meetDetails.style.display='flex';
+                    meetDetails.style.width='20vw';
+                }else{
+                    meetDetails.style.display='none';
+                    meetDetails.style.width='0';
+                }
+                meetDetailToggle=!meetDetailToggle;
+            })
+            //copy meeting id event
+            const copyBtn=document.getElementById('copy-btn');
+            copyBtn.addEventListener('click',()=>{
+                const textToBeCopied=meetId;
+                navigator.clipboard.writeText(textToBeCopied).then(function() {
+                });
+                const copyAlert=document.getElementById('copy-alert');
+                copyAlert.style.display='block';
+                setTimeout(()=>{
+                    copyAlert.style.display='none';
+                },2000);
+
+            });
+            const video = document.getElementById('video');
+            const playPauseButton = document.getElementsByClassName('playPauseButton')[0];
+            function videoPlayPause() {
+                if (video.paused) {
+                    video.play(); // If video is paused, play it
+                    playPauseButton.innerHTML='<span class="material-symbols-outlined cursor-pointer ">pause</span>';
+                    playPauseButton.style.color='blue';
+                } else {
+                    playPauseButton.style.color='black';
+                    playPauseButton.innerHTML='<span class="material-symbols-outlined cursor-pointer ">play_arrow</span>';
+                    video.pause(); // If video is playing, pause it
+                }
+            }
+            playPauseButton.addEventListener('click', () => {
+                videoPlayPause();
+            });
+            function formatTime(durationInSeconds) {
+                // Calculate hours, minutes, and seconds
+                const hours = Math.floor(durationInSeconds / 3600);
+                const minutes = Math.floor((durationInSeconds % 3600) / 60);
+                const seconds = Math.floor(durationInSeconds % 60);
+
+                // Format hours, minutes, and seconds with leading zeros if necessary
+                const formattedHours = String(hours).padStart(2, '0');
+                const formattedMinutes = String(minutes).padStart(2, '0');
+                const formattedSeconds = String(seconds).padStart(2, '0');
+
+                // Combine hours, minutes, and seconds into a string
+                const formattedTime = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+
+                return formattedTime;
+            }
+            // Update current time display
+            const currentTimeDisplay=document.getElementsByClassName('current-time')[0];
+            const totalTimeDisplay=document.getElementsByClassName('total-time')[0];
+            video.addEventListener('timeupdate', () => {
+                currentTimeDisplay.innerHTML = formatTime(Math.floor(video.currentTime));
+                totalTimeDisplay.innerHTML=formatTime(video.duration);
+                const playPauseButton = document.getElementsByClassName('playPauseButton')[0];
+            });
+            //fast forward or rewind by 30 second
+            const fastForward=document.getElementById('forward');
+            const fastRewind=document.getElementById('rewind');
+
+            function updateTime(seconds){
+                const time=video.currentTime+seconds;
+                video.currentTime=(time<0 || time>video.duration )?0:time;
+            }
+            fastForward.addEventListener('click',()=>{
+                updateTime(10);
+            });
+            fastRewind.addEventListener('click',()=>{
+                updateTime(-10);
+            });
+
+            //live 
+            const live=document.getElementById("live");
+
+            function liveEvent(){
+                socket.emit('live',{currentTime:video.currentTime,meetId:meetId});
+            }
+            live.addEventListener('click',liveEvent);
+            
+            //upload
+            const uploadBtn=document.getElementById('upload');
+            function uploadPromptToggle(){
+                const uploadPrompt=document.getElementsByClassName('upload-prompt')[0];
+               uploadPrompt.style.display=uploadPrompt.style.display=='none'?'flex':'none'; 
+            }
+            uploadBtn.addEventListener('click',uploadPromptToggle);
+            const streamBtn=document.getElementById('stream-btn');
+            streamBtn.addEventListener('click',()=>{
+                const streamId=document.getElementById('stream-id').value;
+                document.getElementById('stream-id').value="";
+                video.src='/uploads/'+streamId;
+                socket.emit('stream-src',{src:video.src});
+                uploadPromptToggle();
+            })
+            //sync
+            socket.on("sync-live",({time})=>{
+                console.log(time);
+                video.currentTime=time;
+            });
+
+            //stream live src
+            socket.on('stream-live',({src})=>{
+                video.src=src;
+            });
+            //play live
+            socket.on('#play-live',()=>{
+                if (video.paused) {
+                    video.play();
+                    playPauseButton.innerHTML='<span class="material-symbols-outlined cursor-pointer ">pause</span>';
+                    playPauseButton.style.color='blue';
+                }
+            })
+
+
+        });
+
+        
+    </script>
+    
+</body>
+</html>

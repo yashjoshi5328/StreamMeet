@@ -1,0 +1,38 @@
+.large-icon {
+    font-size: 0rem;/*intially 0 to 2.25rem*/
+    transition: font-size 3s ease;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color:#36486b;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 0%;/*intial 0% onload 7%*/
+    transition: height 3s;
+    padding: 10px;
+    box-sizing: border-box;
+    z-index: 1000; /* Ensure the navbar stays on top */
+}
+.navbar .logo-container {
+    color: white;
+    max-width: 25%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.logo-container .logo-title {
+    transition: font-size 3s;
+    font-size: 0rem;/*0 to 1.4rem*/
+}
+.navbar .datetime-container {
+    transition: font-size 3s;
+    color: white;
+    font-size: 0rem;/*0 to 1rem*/
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}

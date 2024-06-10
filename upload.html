@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamMeet</title>
+    <!--favicons-->
+    <link rel="apple-touch-icon" sizes="180x180" href="/Public/Assets/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/Public/Assets/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/Public/Assets/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/Public/Assets/favicons/site.webmanifest">
+    <link rel="mask-icon" href="/Public/Assets/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="/Public/Assets/css/upload.css">
+</head>
+<body>
+    <h1>File Upload</h1>
+    <form action="/uploadFile" method="post" enctype="multipart/form-data">
+        <label for="fileInput">Select File:</label>
+        <input type="file" name="file" id="fileInput">
+        <button type="submit">Upload</button>
+    </form>
+    <script src="/Public/Assets/js/upload.js"></script>
+</body>
+</html>
