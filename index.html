@@ -73,6 +73,11 @@
             </button>
         </div>
     </div>
+    <button id="fullscreen-btn" style="position: absolute; color:aliceblue; background: none;">
+        <span class="material-symbols-outlined cursor-pointer">
+            fullscreen
+        </span>
+    </button>
     <div class="main">
         <video src="/uploads/demo.mp4" id="video"></video>
     </div>
@@ -308,6 +313,25 @@
                 socket.emit('stream-src',{src:video.src});
                 uploadPromptToggle();
             })
+            //video button sync
+            video.addEventListener('play', function() {
+                playPauseButton.innerHTML='<span class="material-symbols-outlined cursor-pointer ">pause</span>';
+                playPauseButton.style.color='blue';
+            });
+
+            video.addEventListener('pause', function() {
+                playPauseButton.innerHTML='<span class="material-symbols-outlined cursor-pointer ">play_arrow</span>';
+                playPauseButton.style.color='black';
+            });
+            // Set up event listener for full screen button
+            const fullScreenButton=document.getElementById('fullscreen-btn');
+            fullScreenButton.addEventListener('click', function() {
+                if (video === document.fullscreenElement) {
+                    video.exitFullscreen();
+                } else {
+                    video.requestFullscreen();
+                }
+            });
             //sync
             socket.on("sync-live",({time})=>{
                 console.log(time);
