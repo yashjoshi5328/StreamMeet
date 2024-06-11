@@ -196,3 +196,34 @@
     align-items: center;
     justify-content: center;
 }
+/* Rotate video to landscape mode when in fullscreen */
+@media (orientation: portrait) {
+    video:-webkit-full-screen {
+      transform: rotate(90deg);
+      transform-origin: center center;
+      width: 100vh;
+      height: 100vw;
+      object-fit: cover;
+    }
+    video:-moz-full-screen {
+      transform: rotate(90deg);
+      transform-origin: center center;
+      width: 100vh;
+      height: 100vw;
+      object-fit: cover;
+    }
+    video:-ms-fullscreen {
+      transform: rotate(90deg);
+      transform-origin: center center;
+      width: 100vh;
+      height: 100vw;
+      object-fit: cover;
+    }
+    video:fullscreen {
+      transform: rotate(90deg);
+      transform-origin: center center;
+      width: 100vh;
+      height: 100vw;
+      object-fit: cover;
+    }
+  }
