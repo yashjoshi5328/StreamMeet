@@ -49,7 +49,7 @@
             }
             //current user
             currentUser=userInput;
-        },2000);
+        });
     </script>
 </head>
 <body>
@@ -97,7 +97,7 @@
         </div>
         <div class="meeting-controls ">
             <div class="upload-prompt">
-                <p class="cursor-pointer">Upload Your Vedio <a href="/upload.html" style="text-decoration: none; color:blue">here<a> & generate stream id</p>
+                <p class="cursor-pointer">Upload Your Vedio <a href="/upload.html" target="_blank" style="text-decoration: none; color:blue">here<a> & generate stream id</p>
                 <label for="stream-id">Stream Id</label>
                 <input type="text" name="stream-id" id="stream-id"><br><br>
                 <div class="streaming-div"><button class="cursor-pointer" id="stream-btn">STREAM</button></div>
@@ -313,6 +313,15 @@
                 socket.emit('stream-src',{src:video.src});
                 uploadPromptToggle();
             })
+            //add live button to video controls
+            // Append the custom button to the video controls
+            video.addEventListener('loadedmetadata', function() {
+                const customLiveButton=document.getElementById('live');
+                var controlBar = video.querySelector('.vjs-control-bar');
+                if (controlBar) {
+                    controlBar.appendChild(customLiveButton);
+                }
+            });
             //video button sync
             video.addEventListener('play', function() {
                 playPauseButton.innerHTML='<span class="material-symbols-outlined cursor-pointer ">pause</span>';
@@ -341,6 +350,7 @@
             //stream live src
             socket.on('stream-live',({src})=>{
                 video.src=src;
+                console.log('src');
             });
             //play live
             socket.on('#play-live',()=>{
@@ -349,7 +359,7 @@
                     playPauseButton.innerHTML='<span class="material-symbols-outlined cursor-pointer ">pause</span>';
                     playPauseButton.style.color='blue';
                 }
-            })
+            });
 
 
         });
